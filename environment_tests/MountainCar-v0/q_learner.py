@@ -19,3 +19,6 @@ class Q_learner(object):
         self.alpha = ALPHA
         self.gamma = GAMMA
         self.epsilon = 1.0
+
+    def discretize(self,obs):
+        return tuple(((obs - self.obs_low) / self.bin_width).astype(int))
