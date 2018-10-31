@@ -1,3 +1,5 @@
+import numpy as np
+
 EPSILON_MIN = 0.005
 max_num_steps = MAX_NUM_EPISODES * STEPS_PER_EPISODE
 EPSILON_DECAY = 500 * EPSILON_MIN / max_num_steps
@@ -22,3 +24,13 @@ class Q_learner(object):
 
     def discretize(self,obs):
         return tuple(((obs - self.obs_low) / self.bin_width).astype(int))
+
+    def get_action(self, obs):
+        discretized_obs = self.discretize(obs)
+        if self.epsilon > EPSILON_MIN:
+            self.epsilon -= EPSILON_DECAY
+        if np.random.random() > self.epsilon:
+            return np.argmax(self.Q[discretized_obs])
+        else:
+            return np.random.choice([a for a in range(self.action_shape)])
+            
