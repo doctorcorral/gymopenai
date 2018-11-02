@@ -78,4 +78,12 @@ def test(agent, env, policy):
     return total_reward
 
 
-
+if __name__ == '__main__':
+    env = gym.make('MountainCar-v0')
+    agent = Q_learner(env)
+    learned_policy = train(agent, env)
+    gym_monitor_path = "./gym_monitor_output"
+    env = gym.wrappers.Monitor(env, gym_monitor_path, force=True)
+    for _ in range(1000):
+        test(agent, env, learned_policy)
+    env.close()
