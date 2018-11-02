@@ -58,5 +58,5 @@ class Q_learner(object):
                 total_reward += reward
             if total_reward > best_reward:
                 best_reward = total_reward
-            print ("Episode # : {}  reward : {} best_reward : {} eps : {}".format(episode, total_reward, best_reward))
+            print ("Episode # : {}  reward : {} best_reward : {} eps : {}".format(episode, total_reward, best_reward, agent.epsilon))
         return np.argmax(agent.Q, axis=2)
