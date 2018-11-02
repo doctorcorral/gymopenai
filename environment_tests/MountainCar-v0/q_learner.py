@@ -1,6 +1,7 @@
 import numpy as np
 
 MAX_NUM_EPISODES = 100
+STEPS_PER_EPISODE = 50
 EPSILON_MIN = 0.005
 max_num_steps = MAX_NUM_EPISODES * STEPS_PER_EPISODE
 EPSILON_DECAY = 500 * EPSILON_MIN / max_num_steps
@@ -44,7 +45,7 @@ class Q_learner(object):
         td_error = td_target - self.Q[discretized_obs][action]
         self.Q[discretized_obs][action] += self.alpha * td_error
 
-    def train(agent, env):
+    def train(self,agent, env):
         best_reward = -float('inf')
         for episode in range(MAX_NUM_EPISODES):
             done = False
@@ -58,5 +59,8 @@ class Q_learner(object):
                 total_reward += reward
             if total_reward > best_reward:
                 best_reward = total_reward
-            print ("Episode # : {}  reward : {} best_reward : {} eps : {}".format(episode, total_reward, best_reward, agent.epsilon))
+            print("Episode # : {}  reward : {} best_reward : {} eps : {}".format(
+                episode, total_reward, best_reward, agent.epsilon))
         return np.argmax(agent.Q, axis=2)
+
+    
