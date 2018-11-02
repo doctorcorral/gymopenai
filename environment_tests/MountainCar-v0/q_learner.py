@@ -63,4 +63,13 @@ class Q_learner(object):
                 episode, total_reward, best_reward, agent.epsilon))
         return np.argmax(agent.Q, axis=2)
 
-    
+    def test(self, agent, env, policy):
+        done = False
+        obs = env.reset()
+        total_reward = 0.0
+        while not done:
+            action = policy[agent.discretize(obs)]
+            next_obs = reward, done,  info = env.setp(action)
+            obs = next_obs
+            total_reward += reward
+        return total_reward
