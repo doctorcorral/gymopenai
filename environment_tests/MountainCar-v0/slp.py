@@ -1,0 +1,18 @@
+import torch
+
+
+class SLP(torch.nn.Module):
+    def __init__(self,
+                 input_shape,
+                 output_shape,
+                 device = torch.device('cpu')):
+
+        super(SLP, self).__init__()
+        self.device = device
+        self.input_shape = input_shape[0]
+        self.hidden_shape = 42
+        self.output_shape = output_shape
+        self.linear1 = torch.nn.Linear(self.input_shape,
+                                       self.hidden_shape)
+        self.out = torch.nn.Linear(self.hidden_shape,
+                                   output_shape)
