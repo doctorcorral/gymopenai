@@ -16,3 +16,9 @@ class SLP(torch.nn.Module):
                                        self.hidden_shape)
         self.out = torch.nn.Linear(self.hidden_shape,
                                    output_shape)
+
+    def forward(self, x):
+        x = torch.from_numpy(x).float().to(self.device)
+        x = torch.nn.functional.relu(self.linear1(x))
+        x = self.out(x)
+        return x
