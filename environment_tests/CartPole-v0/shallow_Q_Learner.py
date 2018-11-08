@@ -12,6 +12,7 @@ env = gym.make('CartPole-v0')
 MAX_NUM_EPISODES = 10000
 MAX_STEPS_PER_EPISODE = 300
 
+
 class Shallow_Q_Learner(object):
     def __init__(self,
                  state_shape,
@@ -31,8 +32,12 @@ class Shallow_Q_Learner(object):
                                                  max_steps=0.5*MAX_NUM_EPISODES * MAX_STEPS_PER_EPISODE)
         self.step_num = 0
 
-
     def get_action(self, observation):
         return self.policy(observation)
 
-        
+    def epsilon_greedy_Q(self, observation):
+        if random.random() < self.epsilon_decay(self.step_num):
+            action = random.choice([i for i in range(self.action_shape)])
+        else:
+            action = np.argmax(self.Q(observation).data.numpy())
+        return action
