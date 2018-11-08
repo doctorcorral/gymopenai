@@ -13,7 +13,7 @@ GAMMA = 0.98
 NUM_DISCRETE_BINS = 30
 
 
-class Shallow_Q_learner(object):
+class Shallow_Q_Learner(object):
     def __init__(self, env):
         self.obs_shape = env.observation_space.shape
         self.obs_high = env.observation_space.high
@@ -42,7 +42,11 @@ class Shallow_Q_learner(object):
             return np.random.choice([a for a in range(self.action_shape)])
 
     def learn(self, obs, action, reward, next_obs):
-        pass
+        td_target = reward + self.gamma * torch.max(self.Q(next_obs))
+        td_error = torch.nn.functional.mse_loss(self.Q(obs)[action], td_target)
+        self.Q_optimizer.zero_grad()
+        td_error.backward()
+        self.Q_optimizer.step()
 
 
 def train(agent, env):
