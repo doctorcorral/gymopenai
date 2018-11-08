@@ -30,4 +30,9 @@ class Shallow_Q_Learner(object):
                                                  final_value=self.epsilon_min,
                                                  max_steps=0.5*MAX_NUM_EPISODES * MAX_STEPS_PER_EPISODE)
         self.step_num = 0
+
+
+    def get_action(self, observation):
+        return self.policy(observation)
+
         
