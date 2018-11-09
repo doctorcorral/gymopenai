@@ -77,6 +77,6 @@ if __name__ == '__main__':
                     max_reward = cum_reward
                 print('\n\033[94mEpisode#{} ended in {} steps. \033[91m reward = {}'.format(
                     episode, step+1, cum_reward))
-                print('\033[1m mean_reward={} best_reward={}'.format(np.mean(episode_rewards),max_reward)
+                print('\033[1m mean_reward={} best_reward={}'.format(np.mean(episode_rewards),max_reward))
                 break
         env.close()
