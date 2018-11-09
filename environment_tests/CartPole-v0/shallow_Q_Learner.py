@@ -21,6 +21,7 @@ class Shallow_Q_Learner(object):
                  gamma=0.98):
         self.state_shape = state_shape
         self.action_shape = action_shape
+        self.gamma = gamma
         self.learning_rate = learning_rate
         self.Q = SLP(state_shape, action_shape)
         self.Q_optimizer = torch.optim.Adam(self.Q.parameters(), lr=1e-3)
@@ -41,3 +42,10 @@ class Shallow_Q_Learner(object):
         else:
             action = np.argmax(self.Q(observation).data.numpy())
         return action
+
+    def learn(self, s, a, r, s_next):
+        td_target = r + self.gamma * torch.max(self.Q(s_next))
+        td_error = torch.nn.functional.mse_loss(self.Q(s)[a], td_target)
+        self.Q_optimizer.zero_grad()
+        td_error.backward()
+        self.Q_optimizer.step()
