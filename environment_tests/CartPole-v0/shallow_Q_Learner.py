@@ -49,3 +49,34 @@ class Shallow_Q_Learner(object):
         self.Q_optimizer.zero_grad()
         td_error.backward()
         self.Q_optimizer.step()
+
+
+if __name__ == '__main__':
+    observation_shape = env.observation_space.shape
+    action_shape = env.action_space.n
+    agent = Shallow_Q_Learner(observation_shape, action_shape)
+    first_episode = True
+    episode_rewards = list()
+    for episode in range(MAX_NUM_EPISODES):
+        obs = env.reset()
+        cum_reward = 0.0
+        for step in range(MAX_STEPS_PER_EPISODE):
+            action = agent.get_action(obs)
+            next_obs, reward, done, info = env.step(action)
+            agent.learn(obs, action, reward, next_obs)
+
+            obs = next_obs
+            cum_reward += reward
+
+            if done:
+                if first_episode:
+                    max_reward = cum_reward
+                    first_episode = False
+                episode_rewards.append(cum_reward)
+                if cum_reward > max_reward:
+                    max_reward = cum_reward
+                print('\n\033[94mEpisode#{} ended in {} steps. \033[91m reward = {}'.format(
+                    episode, step+1, cum_reward))
+                print('\033[1m mean_reward={} best_reward={}'.format(np.mean(episode_rewards),max_reward)
+                break
+        env.close()
